@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Seller;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -14,36 +15,12 @@ class SellerController extends Controller
      */
     public function index()
     {
-        //
+        $vendedor = Seller::has('products')->get();
+        return response()->json(['data' => $vendedor], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
+    
     public function show($id)
     {
         //
