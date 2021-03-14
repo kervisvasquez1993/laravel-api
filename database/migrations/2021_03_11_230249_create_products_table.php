@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->string('status')->default(Product::PRODUCTO_NO_DISPONIBLE);
             $table->string('image');
-            $table->foreignId('seller_id')->references('id')->on('users')->unsigned();
+            $table->foreignId('seller_id')->references('id')->on('users')->unsigned()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -88,7 +88,52 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $rule = [
+            'email' => 'email| unique:users, email'. $user->id,
+            'password' => 'min:6|confirmed',
+            'admin' => 'in'.User::USUARIO_ADMINISTRADOR . ',' . User::USUARIO_REGULAR,
+        ];
+
+        $this->validate($request, $rule);
+        if($request->has('name'))
+        {
+            $user->name = $request->name;
+        }
+        if($request->has('email') && $user->email != $request->email)
+        {
+            $user->verified = User::USUARIO_NO_VERIFICADO;
+            $user->verification_tonken = User::generarVerificationToken();
+            $user->email = $request->email;
+        }
+
+        if($request->has('password'))
+        {
+            $user->password = Hash::make($request->password);
+        }
+
+        if($request->has('admin'))
+        {
+            if(!$user->esVerificado())
+            {
+                return response()->json([
+                    'error' => 'Unicamente los Usuarios verificado pueden cambiar el Rol',
+                    'code' => 409
+                ], 409);
+            }
+
+            $user->admin = $request->admin;
+        }
+
+        if(!$user->isDirty())
+        {
+            return response()->json(['error' => 'Se debe especificar al menos un valor diferente para actualizar',
+                'code' => 422], 422);
+        }
+
+        $user->save();
+
+        return response()->json(['data' => $user], 200);
     }
 
     /**
@@ -99,6 +144,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        
+
+        $user->delete();
+
+        return response()->json(['data' => $user], 200); 
     }
 }
