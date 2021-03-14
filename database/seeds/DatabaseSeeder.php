@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         factory(Transaction::class, $cantidadTransacciones)->create(); */
 
-        $this->call(PruebaSeeder::class);
+       
 
     }
 }
