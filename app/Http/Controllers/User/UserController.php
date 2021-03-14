@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $usuarios = User::all();
+        return response()->json(['data' => $usuarios], 200);
     }
 
     /**
@@ -35,7 +38,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $rule = [
+            'name' => 'required',
+            'email' => 'required | email | unique:users',
+            'password' => 'required | min:6| confirmed'
+        ];
+
+        $this->validate($request, $rule);
+        $campos = $request->all();
+        $campos['password'] = Hash::make($request->password);
+        $campo['verified'] = User::USUARIO_NO_VERIFICADO;
+        $campos['verification_token'] = User::generarVerificationToken();
+        $campos['admin'] = User::USUARIO_REGULAR; 
+        $usuario = User::create($campos);
+        
+        return response()->json(['data'=> $usuario], 200);
     }
 
     /**
@@ -46,7 +64,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        return response()->json(['data' => $usuario], 200);
     }
 
     /**
