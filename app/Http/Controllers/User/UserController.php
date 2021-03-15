@@ -116,10 +116,7 @@ class UserController extends ApiController
         {
             if(!$user->esVerificado())
             {
-                return response()->json([
-                    'error' => 'Unicamente los Usuarios verificado pueden cambiar el Rol',
-                    'code' => 409
-                ], 409);
+                return $this->errorResponse('Unicamente los Usuarios verificado pueden cambiar el Rol', 409);
             }
 
             $user->admin = $request->admin;
@@ -127,8 +124,7 @@ class UserController extends ApiController
 
         if(!$user->isDirty())
         {
-            return response()->json(['error' => 'Se debe especificar al menos un valor diferente para actualizar',
-                'code' => 422], 422);
+            return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar',422);
         }
 
         $user->save();
