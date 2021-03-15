@@ -17,7 +17,7 @@ class UserController extends ApiController
     public function index()
     {
         $usuarios = User::all();
-        return response()->json(['data' => $usuarios], 200);
+        return $this->showAll($usuarios);
     }
 
     /**
@@ -53,7 +53,7 @@ class UserController extends ApiController
         $campos['admin'] = User::USUARIO_REGULAR; 
         $usuario = User::create($campos);
         
-        return response()->json(['data'=> $usuario], 200);
+        return $this->showOne($usuario, 201);
     }
 
     /**
@@ -133,7 +133,7 @@ class UserController extends ApiController
 
         $user->save();
 
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -149,6 +149,6 @@ class UserController extends ApiController
 
         $user->delete();
 
-        return response()->json(['data' => $user], 200); 
+        return $this->showOne($user);
     }
 }
