@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use App\Traits\ApiResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
+use App\Traits\ApiResponse;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -65,6 +66,11 @@ class Handler extends ExceptionHandler
         {
             $modelo = strtolower(class_basename($exception->getModel()));
             return $this->errorResponse("No existe ninguna incidencia de {$modelo} con el id solicitado", 404);
+        }
+
+        if($exception instanceof AuthenticationException) 
+        {
+            return $this->unauthenticated($request, $exception);
         }
         return parent::render($request, $exception);
     }
