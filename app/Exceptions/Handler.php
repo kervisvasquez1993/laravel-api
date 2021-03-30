@@ -9,6 +9,8 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -77,6 +79,17 @@ class Handler extends ExceptionHandler
         {
             return $this->errorResponse(' No posee permiso para ejecutar esta accion', 403);
         }
+
+        if($exception instanceof NotFoundHttpException)
+        {
+            return $this->errorResponse('No se encontro la url especificada', 404);
+        }
+
+        if($exception instanceof MethodNotAllowedHttpException)
+        {
+            return $this->errorResponse('el metodo especificado no e valido', 405);
+        }
+
         return parent::render($request, $exception);
     }
 
