@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -93,6 +94,16 @@ class Handler extends ExceptionHandler
         if($exception instanceof HttpException)
         {
             return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
+        }
+
+        if($exception instanceof QueryExecuted)
+        {
+            $codigo = $exception->errorInfo[1];
+            if($codigo == 1451)
+            {
+                return $this->errorResponse(' No se puede eliminar de forma permanete el recurso porque esta relacionado con algun otro', 409);
+            }
+            
         }
 
         return parent::render($request, $exception);
