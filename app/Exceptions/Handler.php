@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -71,6 +72,10 @@ class Handler extends ExceptionHandler
         if($exception instanceof AuthenticationException) 
         {
             return $this->unauthenticated($request, $exception);
+        }
+        if($exception instanceof AuthorizationException)
+        {
+            return $this->errorResponse(' No posee permiso para ejecutar esta accion', 403);
         }
         return parent::render($request, $exception);
     }
