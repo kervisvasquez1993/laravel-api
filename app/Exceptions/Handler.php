@@ -106,7 +106,15 @@ class Handler extends ExceptionHandler
             
         }
 
-        return parent::render($request, $exception);
+        if(config('app.debug'))
+        {
+
+            return parent::render($request, $exception);
+        }
+
+        return $this->errorResponse('Falla inesperad, intente luego',500);
+
+
     }
 
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
