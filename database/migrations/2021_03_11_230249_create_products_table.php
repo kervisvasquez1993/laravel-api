@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->foreignId('seller_id')->references('id')->on('users')->unsigned()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

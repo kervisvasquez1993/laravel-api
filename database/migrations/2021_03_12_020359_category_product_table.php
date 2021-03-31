@@ -16,6 +16,7 @@ class CategoryProductTable extends Migration
         Schema::create('category_product', function (Blueprint $table) {
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            
         });
     }
 
