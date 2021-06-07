@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Http\Controllers\ApiController;
+use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
 class CategoryController extends ApiController
 {
@@ -14,17 +16,8 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all();
+        return $this->showAll($categories);
     }
 
     /**
@@ -44,20 +37,10 @@ class CategoryController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+       
+        return $this->showOne($category);
     }
 
     /**
