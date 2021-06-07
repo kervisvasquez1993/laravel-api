@@ -25,9 +25,8 @@ class User extends Authenticatable
      const USUARIO_ADMINISTRADOR = '1';
      const USUARIO_REGULAR = '0';
 
-     protected $table = 'users';
-     protected $dates = ['deleted_at'];
-     protected $fillable = [
+    protected $table = 'users';
+    protected $fillable = [
         'name', 
         'email',
         'password',
