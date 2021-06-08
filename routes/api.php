@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('buyers', 'Buyer\BuyerController', ['only' => ['index', 'show']]);
+Route::resource('buyers.transactions', 'Buyer\BuyerTransactionController', ['only' => ['index']]);
+Route::resource('buyers.products', 'Buyer\BuyerProductController', ['only' => ['index']]);
 
 Route::apiResource('categories', 'Category\CategoryController');
 
