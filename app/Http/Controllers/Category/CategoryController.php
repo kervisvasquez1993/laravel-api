@@ -51,6 +51,8 @@ class CategoryController extends ApiController
   
     public function update(Request $request, Category $category)
     {
+        
+        
         $category->update($request->all());
        
         $category->save();
