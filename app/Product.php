@@ -44,7 +44,7 @@ class Product extends Model
 
     public function transactions()
     {
-        return $this->hasMeny(Transaction::class);
+        return $this->hasMany(Transaction::class);
     }
 
 }
